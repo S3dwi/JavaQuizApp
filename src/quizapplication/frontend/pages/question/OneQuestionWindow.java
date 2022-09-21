@@ -3,6 +3,8 @@ package quizapplication.frontend.pages.question;
 
 import javax.swing.*;
 import quizapplication.backend.models.Question;
+import quizapplication.frontend.components.functional.AnswerQuestionListener;
+import quizapplication.frontend.constants.Theme;
 
 
 public class OneQuestionWindow {
@@ -10,26 +12,26 @@ public class OneQuestionWindow {
     JLabel titleLabel;
     JButton correctBtn, wrongBtn;
     JPanel panel;
-    Question oneQuestion;
-    public OneQuestionWindow(Question oneQuestion) {
-        this.oneQuestion = oneQuestion;
-    }
-    public void open(){
-        
+    public void open(Question oneQuestion){
         frame = new JFrame(oneQuestion.title+" Window");
+        panel = new JPanel();
         
-        titleLabel = new JLabel(oneQuestion.title);
+        titleLabel = new JLabel("Question: "+oneQuestion.title);
+        
+        correctBtn = new JButton("1) "+oneQuestion.correctAnswer);
+        correctBtn.addActionListener(new AnswerQuestionListener(this.frame, true));
+        
+        wrongBtn = new JButton("2) "+oneQuestion.wrongAnswer);
+        correctBtn.addActionListener(new AnswerQuestionListener(this.frame, false));
+        
         panel.add(titleLabel);
         
-        correctBtn = new JButton(oneQuestion.correctAnswer);
         panel.add(correctBtn);
         
-        wrongBtn = new JButton(oneQuestion.wrongAnswer);
         panel.add(wrongBtn);
         
-        frame.add(panel);
-        frame.setSize(1000,1000);
-        frame.setLocation(200,100);
+        Theme.layout(frame, panel);
+        
         frame.setVisible(true);
         
         

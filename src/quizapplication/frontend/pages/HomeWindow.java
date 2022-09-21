@@ -3,25 +3,34 @@ package quizapplication.frontend.pages;
 import java.awt.Color;
 import javax.swing.*;
 import quizapplication.frontend.components.MenuBar;
+import quizapplication.frontend.components.functional.AllQuestionsListener;
+import quizapplication.frontend.components.functional.CreateQuestionListener;
+import quizapplication.frontend.constants.Theme;
 
 public class HomeWindow {
     JFrame frame;
+    JPanel panel;
+    JButton createButton;
+    JButton showAllButton;
+    public int userId;
     
-    public void open() {
+    public void open(int userId){
+        this.userId = userId;
+        MenuBar.userId = this.userId;
+        
         frame = new JFrame("Home Window");
-        MenuBar.create(frame);
-        JButton createButton = new JButton("Create a question");
-        JButton showAllButton = new JButton("Show all questions");
+        panel = new JPanel();
         
-        JPanel panel1 = new JPanel();
-        panel1.add(createButton);
-        panel1.add(showAllButton);
+        createButton = new JButton("Create a question");
+        createButton.addActionListener(new CreateQuestionListener(this));
         
-        frame.add(panel1);
+        showAllButton = new JButton("Show all questions");
+        showAllButton.addActionListener(new AllQuestionsListener(this));
         
-        frame.setSize(1000, 1000);
-        frame.setLocation(200, 100);
-        panel1.setBackground(Color.BLUE);
+        panel.add(createButton);
+        panel.add(showAllButton);
+        
+        Theme.layout(frame, panel);
         
         frame.setVisible(true);
     }
@@ -29,6 +38,7 @@ public class HomeWindow {
     public void close(){
         frame.setVisible(false);
     }
+    
 }
 
 // input -> output

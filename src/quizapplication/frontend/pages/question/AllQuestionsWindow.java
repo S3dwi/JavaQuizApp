@@ -2,37 +2,40 @@
 package quizapplication.frontend.pages.question;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import javax.swing.*;
 import quizapplication.backend.models.Question;
 import quizapplication.frontend.components.MenuBar;
+import quizapplication.frontend.components.functional.OneQuestionListener;
+import quizapplication.frontend.constants.Theme;
 
 public class AllQuestionsWindow {
-    JButton btn1,btn2,btn3,btn4,btn5;
+    JButton questionButton;
     JFrame frame;
     JPanel panel;
-    public void open(){
+    
+    public void open(int userId){
         frame = new JFrame("All Questions Window");
-        MenuBar.create(frame);
-        frame.setBounds(0, 0, 1000, 1000);
         panel = new JPanel();
         
-        Question questions[] = {
-            new Question("Title1","a","b"), 
-            new Question("Title2","a","b"), 
-            new Question("Title3","a","b")
-        };  
-        for(Question q:questions){
-            btn1 = new JButton(q.title);
-            panel.add(btn1);
+        Question questionObject = new Question();
+        questionObject.userId = userId;
+        
+        ArrayList<Question> questions = questionObject.getAll();
+        
+        for(Question question: questions){
+            questionButton = new JButton(question.title);
+            questionButton.addActionListener(new OneQuestionListener(this, question));
+         
+            panel.add(questionButton);
         }
-
         
-
+        Theme.layout(frame, panel);
         
-        frame.add(panel);
-        frame.setLocation(200, 100);
-        panel.setBackground(Color.RED);
         frame.setVisible(true);
         
+    }
+    public void close(){
+        frame.setVisible(false);
     }
 }

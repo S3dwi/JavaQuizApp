@@ -4,48 +4,55 @@ package quizapplication.frontend.pages.question;
 import java.awt.Color;
 import javax.swing.*;
 import quizapplication.frontend.components.MenuBar;
+import quizapplication.frontend.components.functional.CreateQuestionListener;
+import quizapplication.frontend.constants.Theme;
 public class CreateQuestionWindow {
-     JFrame frame;
-    public void open(){
+    JFrame frame;
+    JPanel panel;
+    JLabel questionLabel;
+    JLabel rightAnswerLabel;
+    JLabel wrongAnswerLabel;
+    JTextField questionTextField;
+    JTextField rightAnswerTextField;
+    JTextField wrongAnswerTextField;
+    JButton createButton;
+    public void open(int userId){
           
         frame = new JFrame("Create a Question");
-        MenuBar.create(frame);
+        panel = new JPanel();
           
-        JTextField userTextField = new JTextField(20);
-        JLabel userLabel = new JLabel("Enter your question: ");
+        questionTextField = new JTextField(20);
+        questionLabel = new JLabel("Enter your question: ");
 
         
-        JTextField rightAnswerTextField = new JTextField(20);
-        JLabel rightAnswerLabel = new JLabel("Enter the right answer: ");
+        rightAnswerTextField = new JTextField(20);
+        rightAnswerLabel = new JLabel("Enter the right answer: ");
 
         
-        JTextField wrongAnswerTextField = new JTextField(20);
-        JLabel wrongAnswerLabel = new JLabel("Enter the wrong answer: ");
+        wrongAnswerTextField = new JTextField(20);
+        wrongAnswerLabel = new JLabel("Enter the wrong answer: ");
 
-     
+        createButton = new JButton("Create Question");
+        createButton.addActionListener(new CreateQuestionListener(this, 
+                                                        questionTextField,
+                                                        rightAnswerTextField,
+                                                        wrongAnswerTextField,
+                                                        userId));
         
+        panel.add(questionLabel);
+        panel.add(questionTextField);
         
-        JPanel panel1 = new JPanel();
-        panel1.add(userLabel);
-        panel1.add(userTextField);
-        panel1.add(rightAnswerTextField);
-        panel1.add(rightAnswerLabel);
-        panel1.add(wrongAnswerTextField);
-        panel1.add(wrongAnswerLabel);
+        panel.add(rightAnswerLabel);
+        panel.add(rightAnswerTextField);
         
-       
-      
-        panel1.setBackground(Color.YELLOW);
-        frame.setForeground(Color.WHITE);
+        panel.add(wrongAnswerLabel);
+        panel.add(wrongAnswerTextField);
         
-        frame.add(panel1);
-        frame.setSize(1000, 1000);
+        panel.add(createButton);
+
+        Theme.layout(frame, panel);
         
-        frame.setLocation(200,100);
         frame.setVisible(true);
-
-
-
     }
     
     public void close(){
