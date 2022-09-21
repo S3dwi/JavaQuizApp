@@ -4,30 +4,35 @@ package quizapplication.frontend.pages.user;
 import java.awt.Color;
 import javax.swing.*;
 import quizapplication.frontend.components.MenuBar;
+import quizapplication.frontend.components.functional.LoginListener;
+import quizapplication.frontend.constants.Theme;
 
 public class LoginWindow {
     JFrame frame;
+    JPanel panel;
+    JLabel usernameLabel;
+    JLabel imageLabel;
+    JButton loginButton;
+    JTextField usernameTextField;
+    ImageIcon image;
     
     public void open() {
         frame = new JFrame("Login Window");
-        MenuBar.create(frame);
-        frame.setLocation(200, 100);
-        JTextField usernameTextField = new JTextField(12);
-        JLabel usernameLabel = new JLabel("Enter username: ");
+        panel = new JPanel();
         
-        JPanel panel1 = new JPanel();
-        panel1.add(usernameLabel);
-        panel1.add(usernameTextField);
+        usernameTextField = new JTextField(12);
+        usernameLabel = new JLabel("Enter username: ");
         
-        frame.add(panel1);
-        frame.setSize(1000, 1000);
+        loginButton = new JButton("Login");
+        loginButton.addActionListener(new LoginListener(this, usernameTextField));
         
-        JButton button = new JButton("Login");
-        button.setBounds(10, 80, 80, 25);
-        panel1.add(button);
+        panel.add(usernameLabel);
+        panel.add(usernameTextField);
         
-        frame.setLocation(200, 100);
-        panel1.setBackground(Color.MAGENTA);
+        panel.add(loginButton);
+        
+        Theme.layout(frame, panel);
+        
         frame.setVisible(true);
         
     }

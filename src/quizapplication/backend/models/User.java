@@ -18,18 +18,17 @@ public class User {
     
     // Needs all fields to be assigned except the id.
     public User register(){
-        String sql = "INSERT INTO " + "user" +" (username) VALUES ("+this.username+")";
-        try(Statement statement = databaseConnection.createStatement()){
-//            statement.executeUpdate(sql);
-            if(statement.executeUpdate(sql) > 0){
+        String sql = "INSERT INTO " + "user" +" (username) VALUES ('"+this.username+"')";
+        try(PreparedStatement statement = databaseConnection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
+            if(statement.executeUpdate(sql,Statement.RETURN_GENERATED_KEYS) > 0){
                 ResultSet generatedKeys = statement.getGeneratedKeys();
                 if (generatedKeys.next()) {
-                    this.id = generatedKeys.getInt("id");
+                    this.id = generatedKeys.getInt(1);
                 }
                 System.out.println("Created new user");
             }
         }catch(Exception e){
-            System.out.println("something went wrong when user is registering..: "+e.getMessage());
+            System.out.println("something went wrong when user is registering..: " + e.getMessage());
         }
         return this;
     }

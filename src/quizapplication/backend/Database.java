@@ -18,7 +18,7 @@ public class Database {
                "3306"
                +"/"+
                "quizdb",
-               "",  //username
+               "root",  //username
                ""   //password
             ); 
             

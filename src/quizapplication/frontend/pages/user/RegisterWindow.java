@@ -3,39 +3,49 @@ package quizapplication.frontend.pages.user;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import javax.swing.*;
+import quizapplication.frontend.assets.ImagesPaths;
 import quizapplication.frontend.components.MenuBar;
+import quizapplication.frontend.components.functional.RegisterListener;
+import quizapplication.frontend.constants.Theme;
+
 public class RegisterWindow {
     JFrame frame;
+    JPanel panel;
+    JLabel usernameLabel;
+    JLabel imageLabel;
+    JLabel loginLabel;
+    JButton registerButton;
+    JTextField usernameTextField;
+    ImageIcon image;
+    
      public void open() {
         frame = new JFrame("Register Window");
-        MenuBar.create(frame);
         
-        JPanel panel1 = new JPanel();
-        panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS));
+        panel = new JPanel();        
         
-        frame.setLocation(200, 100);
+        usernameLabel = new JLabel("Enter username: ");
+        usernameTextField = new JTextField(12);
         
-        JLabel usernameLabel = new JLabel("Enter username: ");
-        JTextField usernameTextField = new JTextField(12);
+        image = new ImageIcon(ImagesPaths.REGISTER_IMAGE);
+        imageLabel = new JLabel(image);
         
-        ImageIcon image = new ImageIcon("C:\\Users\\PCD\\Documents\\NetBeansProjects\\JavaQuizzApplication\\src\\quizapplication\\frontend\\assets\\register.png");
-        JLabel label = new JLabel(image);        
-        label.setAlignmentX(Component.CENTER_ALIGNMENT);
+        registerButton = new JButton("Register");
+        registerButton.addActionListener(new RegisterListener(this, usernameTextField));
         
-        JButton button = new JButton("Register");
+        loginLabel = new JLabel("already have an account? go to menu");
         
+        panel.add(imageLabel);
         
-        panel1.add(label);
-        panel1.add(usernameLabel);
-        panel1.add(usernameTextField);
-        panel1.add(button);
-        panel1.setBackground(Color.CYAN);
+        panel.add(usernameLabel);
+        panel.add(usernameTextField);
         
-        frame.add(panel1);
-        frame.setSize(1000, 1000);
-        frame.setLocation(200, 100);
+        panel.add(registerButton);
+        
+        panel.add(loginLabel);
+        
+        Theme.layout(frame, panel);
+        
         frame.setVisible(true);
         
     }

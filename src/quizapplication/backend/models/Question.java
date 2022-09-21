@@ -69,13 +69,14 @@ public class Question {
     
     // Needs all fields to be assigned except the id.
     public Question create(){
-        String sql = "INSERT INTO " + "question" +" (title, correctAnswer, wrongAnswer, userId) VALUES ("+ this.title + ","+ this.correctAnswer + "," + this.wrongAnswer + ","+ this.userId + ","+")";
-        try(Statement statement = databaseConnection.createStatement()){
-//            statement.executeUpdate(sql);
-            if(statement.executeUpdate(sql) > 0){
+        String userSql = "(SELECT id FROM user WHERE id = " + userId + ")";
+        String sql = "INSERT INTO " + "question" +" (title, correctAnswer, wrongAnswer, userId) VALUES ('"+ this.title + "','"+ this.correctAnswer + "','" + this.wrongAnswer + "',"+ userSql +")";
+        System.out.println(sql);
+        try(PreparedStatement statement = databaseConnection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
+            if(statement.executeUpdate(sql,Statement.RETURN_GENERATED_KEYS) > 0){
                 ResultSet generatedKeys = statement.getGeneratedKeys();
                 if (generatedKeys.next()) {
-                    this.id = generatedKeys.getInt("id");
+                    this.id = generatedKeys.getInt(1);
                 }
                 System.out.println("Created new Question");
             }
